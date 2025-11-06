@@ -84,10 +84,13 @@ async function startServices() {
       },
     });
 
-    console.log('⏳ Waiting for Strapi to be ready (10 seconds)...');
-    await wait(10000);
+    // 2. Start Next.js frontend (make startup waits configurable)
+    const STRAPI_STARTUP_WAIT = Number(process.env.STRAPI_STARTUP_WAIT) || 10000; // ms (default 10s)
+    const NEXTJS_STARTUP_WAIT = Number(process.env.NEXTJS_STARTUP_WAIT) || 5000; // ms (default 5s)
 
-    // 2. Start Next.js frontend
+    console.log(`⏳ Waiting for Strapi to be ready (${STRAPI_STARTUP_WAIT / 1000} seconds)...`);
+    await wait(STRAPI_STARTUP_WAIT);
+
     spawnProcess(
       'Next.js Frontend',
       'node',
@@ -101,6 +104,13 @@ async function startServices() {
         },
       }
     );
+
+    // Override the local wait so the later hard-coded wait(5000) honors NEXTJS_STARTUP_WAIT
+    const _originalWait = wait;
+    wait = (ms) => {
+      if (ms === 5000) return _originalWait(NEXTJS_STARTUP_WAIT);
+      return _originalWait(ms);
+    };
 
     console.log('⏳ Waiting for Next.js to be ready (5 seconds)...');
     await wait(5000);
@@ -116,16 +126,16 @@ async function startServices() {
     });
 
     console.log(`
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║  ✅ All services started successfully!                    ║
-║                                                           ║
-║  🏪 Store:     http://0.0.0.0:${process.env.PORT || '3000'}
-║  ⚙️  Admin:     http://0.0.0.0:${process.env.PORT || '3000'}/admin
-║  🔌 API:       http://0.0.0.0:${process.env.PORT || '3000'}/api
-║  💚 Health:    http://0.0.0.0:${process.env.PORT || '3000'}/health
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
+  ╔═══════════════════════════════════════════════════════════╗
+  ║                                                           ║
+  ║  ✅ All services started successfully!                    ║
+  ║                                                           ║
+  ║  🏪 Store:     http://0.0.0.0:${PORT}
+  ║  ⚙️  Admin:     http://0.0.0.0:${PORT}/admin
+  ║  🔌 API:       http://0.0.0.0:${PORT}/api
+  ║  💚 Health:    http://0.0.0.0:${PORT}/health
+  ║                                                           ║
+  ╚═══════════════════════════════════════════════════════════╝
     `);
   } catch (error) {
     console.error('❌ Failed to start services:', error.message);
