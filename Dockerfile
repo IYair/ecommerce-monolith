@@ -3,26 +3,23 @@
 # Stage 1: Build Strapi
 FROM node:20-alpine AS strapi-builder
 
-# Set production environment to skip Husky
-ENV NODE_ENV=production
-
 WORKDIR /app/backend
 
 COPY backend/package*.json ./
-RUN npm ci --omit=dev
+# Install ALL dependencies (including devDependencies) for build
+RUN npm ci
 
 COPY backend/ ./
+ENV NODE_ENV=production
 RUN npm run build
 
 # Stage 2: Build Next.js
 FROM node:20-alpine AS nextjs-builder
 
-# Set production environment to skip Husky
-ENV NODE_ENV=production
-
 WORKDIR /app/frontend
 
 COPY frontend/package*.json ./
+# Install ALL dependencies (including devDependencies) for build
 RUN npm ci
 
 COPY frontend/ ./
@@ -38,6 +35,7 @@ ENV NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}
 ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
 RUN npm run build
 
