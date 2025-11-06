@@ -42,6 +42,7 @@ RUN npm run build
 # Stage 3: Production runtime
 FROM node:20-alpine
 
+# Force rebuild: 2025-11-06T20:15:00Z
 # Set production environment to skip Husky
 ENV NODE_ENV=production
 
