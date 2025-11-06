@@ -344,6 +344,30 @@ DATABASE_PASSWORD=your_password
 
 ## Deployment
 
+### CI/CD Pipeline
+
+The project includes automated CI/CD pipelines via GitHub Actions:
+
+**Continuous Integration (`.github/workflows/ci.yml`):**
+
+- Runs on PRs and pushes to main
+- Code quality checks (lint, format, typecheck)
+- Build verification for frontend and backend
+- Unit and E2E tests (when configured)
+
+**Continuous Deployment (`.github/workflows/deploy.yml`):**
+
+- Builds multi-stage Docker image
+- Pushes to GitHub Container Registry (GHCR)
+- Deploys to Dokploy server via SSH
+
+For complete CI/CD setup instructions, see [CI_CD.md](./CI_CD.md).
+
+**Required GitHub Secrets:**
+
+- Build: `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_STRAPI_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+- Deploy: `DOKPLOY_HOST`, `DOKPLOY_USERNAME`, `DOKPLOY_SSH_KEY`, `DOKPLOY_PROJECT_PATH`
+
 ### Docker Compose
 
 ```bash

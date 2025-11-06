@@ -52,7 +52,17 @@ README.md
 # Tests
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+.playwright/
+e2e/
 
 # Logs
 logs/
 *.log
+
+# CI/CD
+.github/
+.husky/
+.lintstagedrc.json
+.commitlintrc.json

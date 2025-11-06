@@ -262,13 +262,15 @@ This runs:
 
 1. **Ensure all checks pass:**
    - Pre-commit hooks passed
-   - `npm run validate` passes
+   - `npm run validate` passes locally
+   - CI workflow passes (linting, formatting, type-checking, build)
    - No console errors in development
    - Changes tested manually
 
 2. **Update documentation:**
    - Update README.md if adding features
    - Update CLAUDE.md for architectural changes
+   - Update CI_CD.md if changing deployment
    - Add comments for complex logic
 
 3. **Create descriptive PR:**
@@ -277,10 +279,33 @@ This runs:
    - Screenshots for UI changes
    - Link related issues
 
-4. **Code review:**
+4. **Wait for automated checks:**
+   - GitHub Actions CI workflow runs automatically
+   - All quality checks must pass before merge
+   - Review any failed checks and fix issues
+
+5. **Code review:**
    - Address reviewer feedback
    - Keep commits clean and logical
    - Squash if necessary before merge
+
+## CI/CD Pipeline
+
+The project uses GitHub Actions for automated validation and deployment:
+
+- **CI Workflow**: Runs on all PRs and pushes to main
+  - Code formatting check (Prettier)
+  - Linting (ESLint for frontend and backend)
+  - Type checking (TypeScript)
+  - Build verification
+  - Tests (when configured)
+
+- **CD Workflow**: Runs on pushes to main
+  - Builds Docker image
+  - Pushes to GitHub Container Registry
+  - Deploys to Dokploy server
+
+See [CI_CD.md](./CI_CD.md) for complete setup and configuration details.
 
 ## Code Style Guidelines
 

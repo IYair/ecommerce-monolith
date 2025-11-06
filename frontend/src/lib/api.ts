@@ -148,7 +148,7 @@ export const cmsApi = {
         throw new Error('No data returned');
       }
       return data.data;
-    } catch (_error) {
+    } catch {
       // Return defaults if not configured yet
       return {
         id: 0,
@@ -171,7 +171,7 @@ export const cmsApi = {
         throw new Error('No data returned');
       }
       return data.data;
-    } catch (_error) {
+    } catch {
       // Return defaults if not configured yet
       return {
         id: 0,
@@ -197,7 +197,7 @@ export const cmsApi = {
         '/feature-cards?sort=order:asc&filters[enabled][$eq]=true'
       );
       return data.data;
-    } catch (_error) {
+    } catch {
       // Return defaults if not configured yet
       return [
         {
@@ -246,7 +246,7 @@ export const cmsApi = {
         `/navigation-links?filters[position][$eq]=${position}&filters[enabled][$eq]=true&sort=order:asc`
       );
       return data.data;
-    } catch (_error) {
+    } catch {
       return [] as NavigationLink[];
     }
   },
@@ -258,7 +258,7 @@ export const cmsApi = {
         throw new Error('No data returned');
       }
       return data.data;
-    } catch (_error) {
+    } catch {
       // Return defaults if not configured yet
       return {
         id: 0,
