@@ -36,12 +36,12 @@ STRAPI_APP_KEYS=key1,key2,key3,key4
 STRAPI_JWT_SECRET=tu_jwt_secret_aqui
 STRAPI_TRANSFER_TOKEN_SALT=tu_transfer_salt_aqui
 
-# URLs (importante: usa tu dominio de Dokploy)
-NEXT_PUBLIC_API_URL=http://ecommerce3minitos-app-gaajja-f2d39f-189-176-248-165.traefik.me/api
-NEXT_PUBLIC_STRAPI_URL=http://ecommerce3minitos-app-gaajja-f2d39f-189-176-248-165.traefik.me
-NEXT_PUBLIC_SITE_URL=http://ecommerce3minitos-app-gaajja-f2d39f-189-176-248-165.traefik.me
-FRONTEND_URL=http://ecommerce3minitos-app-gaajja-f2d39f-189-176-248-165.traefik.me
-BACKEND_URL=http://ecommerce3minitos-app-gaajja-f2d39f-189-176-248-165.traefik.me
+# URLs (importante: reemplaza <your-dokploy-domain> con tu dominio real de Dokploy)
+NEXT_PUBLIC_API_URL=http://<your-dokploy-domain>.traefik.me/api
+NEXT_PUBLIC_STRAPI_URL=http://<your-dokploy-domain>.traefik.me
+NEXT_PUBLIC_SITE_URL=http://<your-dokploy-domain>.traefik.me
+FRONTEND_URL=http://<your-dokploy-domain>.traefik.me
+BACKEND_URL=http://<your-dokploy-domain>.traefik.me
 
 # Stripe
 STRIPE_SECRET_KEY=sk_test_... o sk_live_...
@@ -63,9 +63,9 @@ Usa `docker-compose.production.yml` que descarga la imagen de GitHub Container R
    Ve a tu repositorio → Settings → Secrets and variables → Actions:
 
 ```
-NEXT_PUBLIC_API_URL=http://tu-dominio-dokploy.traefik.me/api
-NEXT_PUBLIC_STRAPI_URL=http://tu-dominio-dokploy.traefik.me
-NEXT_PUBLIC_SITE_URL=http://tu-dominio-dokploy.traefik.me
+NEXT_PUBLIC_API_URL=http://<your-dokploy-domain>.traefik.me/api
+NEXT_PUBLIC_STRAPI_URL=http://<your-dokploy-domain>.traefik.me
+NEXT_PUBLIC_SITE_URL=http://<your-dokploy-domain>.traefik.me
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
 ```
 
@@ -102,7 +102,7 @@ Esto activará el CI/CD que:
 ### 1. Check de Salud
 
 ```bash
-curl http://tu-dominio.traefik.me/health
+curl http://<your-dokploy-domain>.traefik.me/health
 ```
 
 Debe responder:
@@ -137,10 +137,10 @@ En la interfaz de Dokploy:
 
 ### 3. Acceder a la Aplicación
 
-- **Store (Frontend):** http://tu-dominio.traefik.me/
-- **Admin Panel:** http://tu-dominio.traefik.me/admin
-- **API:** http://tu-dominio.traefik.me/api
-- **Health Check:** http://tu-dominio.traefik.me/health
+- **Store (Frontend):** http://<your-dokploy-domain>.traefik.me/
+- **Admin Panel:** http://<your-dokploy-domain>.traefik.me/admin
+- **API:** http://<your-dokploy-domain>.traefik.me/api
+- **Health Check:** http://<your-dokploy-domain>.traefik.me/health
 
 ## Troubleshooting
 
