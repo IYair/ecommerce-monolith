@@ -3,13 +3,13 @@
 # Stage 1: Build Strapi
 FROM node:20-alpine AS strapi-builder
 
-# Disable Husky in Docker (must be set early)
-ENV HUSKY=0
+# Set production environment to skip Husky
+ENV NODE_ENV=production
 
 WORKDIR /app/backend
 
 COPY backend/package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 COPY backend/ ./
 RUN npm run build
@@ -17,8 +17,8 @@ RUN npm run build
 # Stage 2: Build Next.js
 FROM node:20-alpine AS nextjs-builder
 
-# Disable Husky in Docker (must be set early)
-ENV HUSKY=0
+# Set production environment to skip Husky
+ENV NODE_ENV=production
 
 WORKDIR /app/frontend
 
@@ -44,14 +44,16 @@ RUN npm run build
 # Stage 3: Production runtime
 FROM node:20-alpine
 
-# Disable Husky in Docker (must be set early)
-ENV HUSKY=0
+# Set production environment to skip Husky
+ENV NODE_ENV=production
 
 WORKDIR /app
 
 # Install production dependencies
 COPY package*.json ./
-RUN npm ci --only=production
+# Copy husky install script
+COPY .husky/install.mjs ./.husky/
+RUN npm ci --omit=dev
 
 # Copy Strapi
 COPY --from=strapi-builder /app/backend ./backend
@@ -64,7 +66,7 @@ COPY --from=nextjs-builder /app/frontend/next.config.* ./frontend/
 
 # Install frontend production dependencies
 WORKDIR /app/frontend
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 WORKDIR /app
 

@@ -13,7 +13,7 @@
     "start": "node server.js",
     "strapi": "cd backend && npm run strapi",
     "setup": "npm install && cd backend && npm install && cd ../frontend && npm install",
-    "prepare": "husky",
+    "prepare": "node .husky/install.mjs",
     "lint": "npm run lint:frontend && npm run lint:backend",
     "lint:frontend": "cd frontend && npm run lint",
     "lint:backend": "cd backend && npm run lint",
