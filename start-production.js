@@ -65,7 +65,6 @@ function cleanup() {
 // Handle shutdown signals
 process.on('SIGTERM', cleanup);
 process.on('SIGINT', cleanup);
-process.on('exit', cleanup);
 
 // Wait function
 function wait(ms) {
