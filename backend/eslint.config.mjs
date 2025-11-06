@@ -44,7 +44,7 @@ export default [
         'warn',
         {
           argsIgnorePattern: '^_',
-          varsIgnorePattern': '^_',
+          varsIgnorePattern: '^_',
         },
       ],
 
@@ -86,7 +86,9 @@ export default [
       'dist/**',
       '.cache/**',
       '.tmp/**',
+      '.strapi/**',
       'src/admin/**',
+      'types/generated/**',
       '**/*.test.ts',
       '**/*.test.js',
       'coverage/**',

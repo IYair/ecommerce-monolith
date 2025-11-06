@@ -2,12 +2,13 @@
  * order controller
  */
 import { factories } from '@strapi/strapi';
+import Stripe from 'stripe';
 
 export default factories.createCoreController('api::order.order', ({ strapi }) => ({
   async find(ctx) {
     // Only allow authenticated users to see their own orders
     if (ctx.state.user) {
-      const existingFilters = (ctx.query.filters as Record<string, any>) || {};
+      const existingFilters = (ctx.query.filters as Record<string, unknown>) || {};
       ctx.query = {
         ...ctx.query,
         filters: {
@@ -52,7 +53,9 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
         return ctx.badRequest('Session ID is required');
       }
 
-      const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+        apiVersion: '2025-10-29.clover',
+      });
       const session = await stripe.checkout.sessions.retrieve(sessionId, {
         expand: ['line_items', 'customer'],
       });
@@ -77,17 +80,17 @@ export default factories.createCoreController('api::order.order', ({ strapi }) =
       const orderData = {
         orderNumber: `ORD-${Date.now()}`,
         status: 'processing' as const,
-        items: session.metadata.items ? JSON.parse(session.metadata.items) : [],
-        subtotal: session.amount_subtotal / 100,
-        tax: session.total_details.amount_tax / 100,
-        shipping: session.total_details.amount_shipping / 100,
-        total: session.amount_total / 100,
-        shippingAddress: session.metadata.shippingAddress
+        items: session.metadata?.items ? JSON.parse(session.metadata.items) : [],
+        subtotal: (session.amount_subtotal ?? 0) / 100,
+        tax: (session.total_details?.amount_tax ?? 0) / 100,
+        shipping: (session.total_details?.amount_shipping ?? 0) / 100,
+        total: (session.amount_total ?? 0) / 100,
+        shippingAddress: session.metadata?.shippingAddress
           ? JSON.parse(session.metadata.shippingAddress)
           : {},
         stripeSessionId: sessionId,
         stripePaymentIntentId: session.payment_intent as string,
-        customerEmail: session.customer_details.email,
+        customerEmail: session.customer_details?.email,
         userId: ctx.state.user?.id,
         publishedAt: new Date(),
       };

@@ -3,7 +3,7 @@
  */
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreController('api::category.category', ({ strapi }) => ({
+export default factories.createCoreController('api::category.category', ({ strapi: _strapi }) => ({
   async find(ctx) {
     ctx.query = {
       ...ctx.query,
@@ -20,7 +20,7 @@ export default factories.createCoreController('api::category.category', ({ strap
   },
 
   async findOne(ctx) {
-    const { id } = ctx.params;
+    const { id: _id } = ctx.params;
 
     ctx.query = {
       ...ctx.query,
