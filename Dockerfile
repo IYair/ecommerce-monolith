@@ -47,9 +47,9 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-# Install production dependencies
+# Install all dependencies (needed for next.config.ts and runtime tools)
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Copy Strapi
 COPY --from=strapi-builder /app/backend ./backend
@@ -60,9 +60,9 @@ COPY --from=nextjs-builder /app/frontend/public ./frontend/public
 COPY --from=nextjs-builder /app/frontend/package*.json ./frontend/
 COPY --from=nextjs-builder /app/frontend/next.config.* ./frontend/
 
-# Install frontend production dependencies
+# Install frontend dependencies (needed for next.config.ts transpilation)
 WORKDIR /app/frontend
-RUN npm ci --omit=dev
+RUN npm ci
 
 WORKDIR /app
 
