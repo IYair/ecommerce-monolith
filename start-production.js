@@ -28,15 +28,6 @@ console.log(`
 const processes = [];
 let isCleaningUp = false;
 
-// Validate executable paths
-function validateExecutable(execPath) {
-  const fullPath = path.join(__dirname, execPath);
-  if (!fs.existsSync(fullPath)) {
-    throw new Error(`Executable not found: ${fullPath}`);
-  }
-  return fullPath;
-}
-
 // HTTP health check function
 function checkHealth(port, path = '/health') {
   return new Promise((resolve) => {
@@ -56,11 +47,16 @@ function checkHealth(port, path = '/health') {
 }
 
 // Wait for service to be healthy with timeout
-async function waitForHealthy(port, serviceName, timeout = HEALTH_CHECK_TIMEOUT) {
+async function waitForHealthy(
+  port,
+  serviceName,
+  timeout = HEALTH_CHECK_TIMEOUT,
+  healthPath = '/health'
+) {
   const startTime = Date.now();
 
   while (Date.now() - startTime < timeout) {
-    const isHealthy = await checkHealth(port);
+    const isHealthy = await checkHealth(port, healthPath);
     if (isHealthy) {
       console.log(`✅ ${serviceName} is ready!`);
       return true;
@@ -163,14 +159,23 @@ function padCenter(text, width) {
 // Start services sequentially with health checks
 async function startServices() {
   try {
-    // Validate executables exist
-    validateExecutable('backend/node_modules/.bin/strapi');
-    validateExecutable('frontend/node_modules/.bin/next');
-    validateExecutable('server.js');
+    // Validate directories exist
+    const backendDir = path.join(__dirname, 'backend');
+    const frontendDir = path.join(__dirname, 'frontend');
 
-    // 1. Start Strapi backend
-    spawnProcess('Strapi Backend', 'node', ['./backend/node_modules/.bin/strapi', 'start'], {
-      cwd: path.join(__dirname),
+    if (!fs.existsSync(backendDir)) {
+      throw new Error('Backend directory not found');
+    }
+    if (!fs.existsSync(frontendDir)) {
+      throw new Error('Frontend directory not found');
+    }
+    if (!fs.existsSync(path.join(__dirname, 'server.js'))) {
+      throw new Error('server.js not found');
+    }
+
+    // 1. Start Strapi backend (must run from backend directory)
+    spawnProcess('Strapi Backend', 'npm', ['run', 'start'], {
+      cwd: backendDir,
       env: {
         ...process.env,
         PORT: STRAPI_PORT,
@@ -181,11 +186,12 @@ async function startServices() {
     console.log(
       `⏳ Waiting for Strapi to be ready (max ${HEALTH_CHECK_TIMEOUT / 1000}s, checking every ${HEALTH_CHECK_INTERVAL / 1000}s)...`
     );
-    await waitForHealthy(STRAPI_PORT, 'Strapi Backend');
+    // Strapi doesn't have a standard health endpoint, check the admin endpoint
+    await waitForHealthy(STRAPI_PORT, 'Strapi Backend', HEALTH_CHECK_TIMEOUT, '/admin');
 
-    // 2. Start Next.js frontend
-    spawnProcess('Next.js Frontend', 'node', ['./frontend/node_modules/.bin/next', 'start'], {
-      cwd: path.join(__dirname),
+    // 2. Start Next.js frontend (must run from frontend directory)
+    spawnProcess('Next.js Frontend', 'npm', ['run', 'start'], {
+      cwd: frontendDir,
       env: {
         ...process.env,
         PORT: NEXTJS_PORT,
