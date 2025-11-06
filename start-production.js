@@ -74,6 +74,11 @@ function wait(ms) {
 // Start services sequentially with delays
 async function startServices() {
   try {
+    // Configuration constants
+    const PORT = process.env.PORT || '3000';
+    const STRAPI_STARTUP_WAIT = Number(process.env.STRAPI_STARTUP_WAIT) || 10000; // ms (default 10s)
+    const NEXTJS_STARTUP_WAIT = Number(process.env.NEXTJS_STARTUP_WAIT) || 5000; // ms (default 5s)
+
     // 1. Start Strapi backend
     spawnProcess('Strapi Backend', 'node', ['./backend/node_modules/.bin/strapi', 'start'], {
       cwd: path.join(__dirname),
@@ -84,13 +89,10 @@ async function startServices() {
       },
     });
 
-    // 2. Start Next.js frontend (make startup waits configurable)
-    const STRAPI_STARTUP_WAIT = Number(process.env.STRAPI_STARTUP_WAIT) || 10000; // ms (default 10s)
-    const NEXTJS_STARTUP_WAIT = Number(process.env.NEXTJS_STARTUP_WAIT) || 5000; // ms (default 5s)
-
     console.log(`⏳ Waiting for Strapi to be ready (${STRAPI_STARTUP_WAIT / 1000} seconds)...`);
     await wait(STRAPI_STARTUP_WAIT);
 
+    // 2. Start Next.js frontend
     spawnProcess(
       'Next.js Frontend',
       'node',
@@ -105,22 +107,15 @@ async function startServices() {
       }
     );
 
-    // Override the local wait so the later hard-coded wait(5000) honors NEXTJS_STARTUP_WAIT
-    const _originalWait = wait;
-    wait = (ms) => {
-      if (ms === 5000) return _originalWait(NEXTJS_STARTUP_WAIT);
-      return _originalWait(ms);
-    };
-
-    console.log('⏳ Waiting for Next.js to be ready (5 seconds)...');
-    await wait(5000);
+    console.log(`⏳ Waiting for Next.js to be ready (${NEXTJS_STARTUP_WAIT / 1000} seconds)...`);
+    await wait(NEXTJS_STARTUP_WAIT);
 
     // 3. Start proxy server
     spawnProcess('Proxy Server', 'node', ['server.js'], {
       cwd: path.join(__dirname),
       env: {
         ...process.env,
-        PORT: process.env.PORT || '3000',
+        PORT: PORT,
         HOST: '0.0.0.0',
       },
     });
