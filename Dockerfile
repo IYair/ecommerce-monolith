@@ -51,8 +51,6 @@ WORKDIR /app
 
 # Install production dependencies
 COPY package*.json ./
-# Copy husky install script
-COPY .husky/install.mjs ./.husky/
 RUN npm ci --omit=dev
 
 # Copy Strapi
