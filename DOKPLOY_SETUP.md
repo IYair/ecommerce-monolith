@@ -54,7 +54,7 @@ STRIPE_WEBHOOK_SECRET=whsec_...
    - Iniciará los servicios con `start-production.js`
    - La aplicación estará disponible en tu dominio
 
-### Opción 2: Usar Imagen Pre-construida de GitHub (CI/CD Completo)
+### Opción 2: Usar Imagen Preconstruida de GitHub (CI/CD Completo)
 
 Usa `docker-compose.production.yml` que descarga la imagen de GitHub Container Registry.
 
