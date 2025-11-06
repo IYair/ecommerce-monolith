@@ -26,8 +26,9 @@ RUN npm ci
 # Copy source code
 COPY backend/ ./
 
-# Build Strapi
+# Build Strapi with increased memory limit
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
 # Prune to production dependencies only
@@ -67,6 +68,7 @@ ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Build Next.js
 RUN npm run build
@@ -101,11 +103,11 @@ COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/node_modules ./ba
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/dist ./backend/dist
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/public ./backend/public
 
-# Copy backend config (needed for runtime)
-COPY --chown=nodejs:nodejs backend/config ./backend/config
+# Copy compiled config files from dist to root config folder (Strapi expects them there in production)
+COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/dist/config ./backend/config
 
-# Create uploads directory with correct permissions
-RUN mkdir -p backend/public/uploads && chown -R nodejs:nodejs backend/public
+# Create required directories with correct permissions
+RUN mkdir -p backend/public/uploads backend/.tmp .tmp && chown -R nodejs:nodejs backend/public backend/.tmp .tmp
 
 # ============================================
 # Copy Next.js Frontend (with production deps including TypeScript)

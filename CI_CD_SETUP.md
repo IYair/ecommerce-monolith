@@ -2,9 +2,16 @@
 
 ## 📋 Resumen de Cambios
 
-### Problema Identificado
+### Problemas Identificados
 
-Next.js no podía encontrar TypeScript en runtime para transpilar `next.config.ts` porque estaba en `devDependencies` y se eliminaba en producción con `npm prune --production`.
+1. **Next.js - TypeScript no encontrado en runtime**
+   - Next.js no podía encontrar TypeScript en runtime para transpilar `next.config.ts`
+   - TypeScript estaba en `devDependencies` y se eliminaba con `npm prune --production`
+
+2. **Strapi - Archivos de configuración no encontrados**
+   - Strapi no podía leer los archivos de configuración `.ts` en producción
+   - Los archivos compilados en `dist/config/*.js` no se copiaban correctamente
+   - Error: `Config file not loaded, extension must be one of .js,.json`
 
 ### Solución Implementada
 
@@ -15,9 +22,13 @@ Next.js no podía encontrar TypeScript en runtime para transpilar `next.config.t
 2. ✅ **Optimizado el Dockerfile**
    - Multi-stage build más eficiente
    - `npm prune --production` ahora mantiene TypeScript
+   - **CRÍTICO:** Copia los archivos de configuración compilados desde `dist/config` a `config`
+   - Strapi necesita los archivos `.js` compilados, no los `.ts` originales
+   - **Aumentada memoria para builds:** `NODE_OPTIONS="--max-old-space-size=4096"`
+   - Resuelve errores de "JavaScript heap out of memory" durante build
    - Mejor separación de concerns
    - Usa `dumb-init` para proper signal handling
-   - Health checks mejorados
+   - Health checks mejorados (90s start period)
 
 3. ✅ **Workflow de CI/CD ya existente y funcional**
    - Valida código antes de merge
