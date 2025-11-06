@@ -30,6 +30,18 @@ Modern, full-featured ecommerce application built as a monolith using **Strapi C
 - **Unified server** serving both Strapi and Next.js
 - **Docker** ready with multi-stage builds
 - **Health checks** for monitoring
+- **CI/CD** with GitHub Actions and Dokploy
+- **Branch Protection** - No broken code reaches production
+
+### CI/CD Pipeline
+
+- ✅ **Automated Testing** - Lint, typecheck, build on every PR
+- ✅ **Branch Protection** - Merge blocked until CI passes
+- ✅ **Docker Build** - Automatic image build on merge to main
+- ✅ **Auto Deploy** - Dokploy detects and deploys new images
+- ✅ **Zero Downtime** - Rolling deployments with health checks
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) and [.github/BRANCH_PROTECTION.md](./.github/BRANCH_PROTECTION.md) for details.
 
 ## 📋 Prerequisites
 
