@@ -101,6 +101,7 @@ WORKDIR /app
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/package*.json ./backend/
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/node_modules ./backend/node_modules
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/dist ./backend/dist
+COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/build ./backend/build
 COPY --from=backend-builder --chown=nodejs:nodejs /app/backend/public ./backend/public
 
 # Copy compiled config files from dist to root config folder (Strapi expects them there in production)
