@@ -15,41 +15,9 @@ const eslintConfig = defineConfig([
       'unused-imports': unusedImports,
     },
     rules: {
-      // Import ordering (handled by Prettier plugin, but enforce structure)
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            ['parent', 'sibling'],
-            'index',
-          ],
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-          pathGroups: [
-            {
-              pattern: 'react',
-              group: 'external',
-              position: 'before',
-            },
-            {
-              pattern: 'next/**',
-              group: 'external',
-              position: 'before',
-            },
-            {
-              pattern: '@/**',
-              group: 'internal',
-            },
-          ],
-          pathGroupsExcludedImportTypes: ['react', 'next'],
-        },
-      ],
+      // Import ordering handled by Prettier plugin
+      // ESLint rule disabled to avoid conflicts
+      'import/order': 'off',
 
       // Unused imports
       'unused-imports/no-unused-imports': 'error',

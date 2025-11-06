@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 import { ExternalLink, Menu, Search } from 'lucide-react';
+import { useState } from 'react';
 
 import { CartDrawer } from '@/components/CartDrawer';
 import { Button } from '@/components/ui/button';
