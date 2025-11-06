@@ -69,8 +69,9 @@ WORKDIR /app
 # Copy shared types
 COPY shared/ ./shared/
 
-# Copy server
+# Copy server files
 COPY server.js ./
+COPY start-production.js ./
 
 # Create uploads directory
 RUN mkdir -p backend/public/uploads
@@ -78,9 +79,9 @@ RUN mkdir -p backend/public/uploads
 # Expose port
 EXPOSE 3000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s \
-  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+# Health check with proper error handling
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)}).on('error', () => process.exit(1))"
 
-# Start the application
-CMD ["node", "server.js"]
+# Start the application with production script
+CMD ["node", "start-production.js"]
