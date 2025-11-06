@@ -1,0 +1,123 @@
+{
+  "kind": "singleType",
+  "collectionName": "theme_setting",
+  "info": {
+    "singularName": "theme-setting",
+    "pluralName": "theme-settings",
+    "displayName": "Theme Settings",
+    "description": "Color palette and theme configuration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "themeName": {
+      "type": "string",
+      "required": true,
+      "default": "Default Theme"
+    },
+    "primaryColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "primaryForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#fafafa"
+    },
+    "secondaryColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#f5f5f5"
+    },
+    "secondaryForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "accentColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#f5f5f5"
+    },
+    "accentForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "backgroundColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#ffffff"
+    },
+    "foregroundColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "mutedColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#f5f5f5"
+    },
+    "mutedForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#737373"
+    },
+    "cardColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#ffffff"
+    },
+    "cardForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "borderColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#e5e5e5"
+    },
+    "inputColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#e5e5e5"
+    },
+    "ringColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#171717"
+    },
+    "destructiveColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#ef4444"
+    },
+    "destructiveForeground": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "required": true,
+      "default": "#fafafa"
+    }
+  }
+}

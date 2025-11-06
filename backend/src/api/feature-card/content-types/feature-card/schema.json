@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "feature_cards",
+  "info": {
+    "singularName": "feature-card",
+    "pluralName": "feature-cards",
+    "displayName": "Feature Card",
+    "description": "Homepage feature/benefit cards"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "icon": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

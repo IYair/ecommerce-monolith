@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+.next
+out
+build
+dist
+.cache
+.tmp
+
+# Environment files
+.env
+.env.*
+
+# Strapi
+backend/public/uploads
+backend/.tmp
+backend/build
+backend/dist
+backend/.strapi
+
+# Frontend
+frontend/.next
+frontend/out
+frontend/build
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+next-env.d.ts
+tsconfig.tsbuildinfo

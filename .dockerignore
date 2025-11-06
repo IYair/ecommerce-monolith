@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Git
+.git
+.gitignore
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+.cache/
+
+# Strapi
+backend/.cache/
+backend/.tmp/
+backend/build/
+backend/dist/
+backend/.strapi-updater.json
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep
+backend/exports/
+backend/*.db
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md
+*.md
+
+# Tests
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log

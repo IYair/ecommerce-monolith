@@ -1,0 +1,56 @@
+{
+  "kind": "singleType",
+  "collectionName": "hero_section",
+  "info": {
+    "singularName": "hero-section",
+    "pluralName": "hero-sections",
+    "displayName": "Hero Section",
+    "description": "Homepage hero section content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "headline": {
+      "type": "string",
+      "required": true,
+      "default": "Welcome to EcommerceStore"
+    },
+    "subtitle": {
+      "type": "text",
+      "required": true,
+      "default": "Discover amazing products at unbeatable prices. Shop the latest trends and must-have items."
+    },
+    "primaryButtonText": {
+      "type": "string",
+      "required": true,
+      "default": "Shop Now"
+    },
+    "primaryButtonLink": {
+      "type": "string",
+      "required": true,
+      "default": "/products"
+    },
+    "secondaryButtonText": {
+      "type": "string",
+      "required": false,
+      "default": "Browse Categories"
+    },
+    "secondaryButtonLink": {
+      "type": "string",
+      "required": false,
+      "default": "/categories"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "backgroundImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

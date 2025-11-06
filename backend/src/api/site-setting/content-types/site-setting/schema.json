@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_setting",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Settings",
+    "description": "Global site configuration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "required": true,
+      "default": "EcommerceStore"
+    },
+    "siteLogo": {
+      "type": "string",
+      "required": false,
+      "default": "🛍️"
+    },
+    "searchPlaceholder": {
+      "type": "string",
+      "required": false,
+      "default": "Search products..."
+    }
+  }
+}
