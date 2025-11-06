@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
 
     steps:
       - name: Checkout code
@@ -59,13 +59,29 @@ jobs:
         working-directory: ./frontend
         run: npm run build
         env:
-          NEXT_PUBLIC_API_URL: http://localhost:3000/api
-          NEXT_PUBLIC_STRAPI_URL: http://localhost:3000
-          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'http://localhost:1337/api' }}
+          NEXT_PUBLIC_STRAPI_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_URL || 'http://localhost:1337' }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000' }}
 
       - name: Build backend
         working-directory: ./backend
         run: npm run build
+        env:
+          NODE_ENV: production
+          NODE_OPTIONS: '--max-old-space-size=4096'
+          DATABASE_CLIENT: ${{ secrets.DATABASE_CLIENT || 'sqlite' }}
+          DATABASE_FILENAME: ${{ secrets.DATABASE_FILENAME || '.tmp/data.db' }}
+          DATABASE_HOST: ${{ secrets.DATABASE_HOST || '127.0.0.1' }}
+          DATABASE_PORT: ${{ secrets.DATABASE_PORT || '5432' }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME || 'strapi' }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME || 'strapi' }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD || 'strapi' }}
+          DATABASE_SSL: ${{ secrets.DATABASE_SSL || 'false' }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET || 'tempJwtSecret123' }}
+          ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET || 'tempAdminJwtSecret123' }}
+          APP_KEYS: ${{ secrets.APP_KEYS || 'tempAppKey1,tempAppKey2,tempAppKey3,tempAppKey4' }}
+          API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT || 'tempApiTokenSalt123' }}
+          TRANSFER_TOKEN_SALT: ${{ secrets.TRANSFER_TOKEN_SALT || 'tempTransferTokenSalt123' }}
 
   # Placeholder for tests - uncomment when tests are configured
   # tests:
